@@ -6,7 +6,7 @@
 #'
 #' @export 
 
-get_openfec <- function(path, query_parameters = list()) {
+query_openfec <- function(path, query_parameters = list()) {
   
   #Construct URL to scrape from
   url <- httr::modify_url('https://api.open.fec.gov/', path = paste0("/v1",path), query = query_parameters)
