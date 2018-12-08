@@ -1,15 +1,15 @@
-#' Search for political candidates in FEC 
-#' 
-#' This function constructs searches for candidates listed in the FEC based on input parameters. 
+#' Search for political candidates in FEC
+#'
+#' This function constructs searches for candidates listed in the FEC based on input parameters.
 #' @param api_key An API key required to use OpenFEC
 #' @param state A two-letter acronym which specifies the state to search (e.g., "TX")
 #' @param election_year The year the election occured
 #' @param office Specifies which office the candidate ran for: "S" = Senate, "H" = House, "G" = Governor, "P" = President
-#' @param candidate_status Specifies whether the candidate is active during that election. Defaults to "C" for current. 
-#' 
+#' @param candidate_status Specifies whether the candidate is active during that election. Defaults to "C" for current.
+#'
 #' @import purrr dplyr magrittr
-#' 
-#' @export 
+#'
+#' @export
 
 #Construct FEC URL to get data from
 query_candidate_list <- function(api_key = NULL, state = NULL, election_year = NULL, office = NULL, candidate_status = "C") {
@@ -18,19 +18,19 @@ query_candidate_list <- function(api_key = NULL, state = NULL, election_year = N
   }
 
   #1: Find candidates
-  
+
   query_param <- list(
-    api_key = api_key, 
-    state = state, 
-    election_year = election_year, 
-    office = office, 
-    candidate_status = candidate_status, 
-    page = 1, 
+    api_key = api_key,
+    state = state,
+    election_year = election_year,
+    office = office,
+    candidate_status = candidate_status,
+    page = 1,
     per_page = 100
   )
-  
-  query_param <- query_param[!sapply(query_param, is.null)] # fill in query inputs from the function inputs 
-  
+
+  query_param <- query_param[!sapply(query_param, is.null)] # fill in query inputs from the function inputs
+
   #Set up for responses to our requests.
   responses <- list()
 
@@ -41,7 +41,7 @@ query_candidate_list <- function(api_key = NULL, state = NULL, election_year = N
   total_count <- responses[[1]][["pagination"]][["count"]]
 
   message(paste0("Candidates found: ", total_count))
-  
+
   #Automate Pagination, only run if necessary
   if(total_pages > 1){
 
@@ -64,9 +64,9 @@ query_candidate_list <- function(api_key = NULL, state = NULL, election_year = N
      }
 
   }
-  
-  # CLEAN RESPONSES RETRIEVED 
-  
+
+  # CLEAN RESPONSES RETRIEVED
+
   tidy_candidates <- purrr::map(responses, function(x) x$results) %>%
      unlist(recursive = F) %>%
      tibble::tibble(
@@ -112,7 +112,16 @@ query_candidate_list <- function(api_key = NULL, state = NULL, election_year = N
                                                                   last_f1_date = NA,
                                                                   treasurer_name = NA,
                                                                   name = NA)))))
-  
+
   return(tidy_candidates)
-  
+
 }
+
+input_api <- "jFTYk34OsWkFoEHLcUDa7G1Ax4GCyhJyAgCwB8oz"
+input_state <- "WY"
+# input_candidates <- c("Barrasso, John", "Trauner, Gary")
+input_year<-2018
+input_office <- "S"
+
+
+aaa<-query_candidate_list(api_key = input_api, state = input_state, office= input_office, election_year = input_year)

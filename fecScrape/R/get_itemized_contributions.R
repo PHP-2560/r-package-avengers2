@@ -29,6 +29,7 @@
 #'
 #' @export
 #'
+source("./fecScrape/R/query_openfec.R")
 
 get_itemized_contributions <- function(
    data = NULL,
@@ -122,13 +123,14 @@ get_itemized_contributions <- function(
    responses[[1]] <- query_openfec(path = "/schedules/schedule_a/", query_parameters = query_parameters)
 
 
+   total_pages <- responses[[1]][["pagination"]][["pages"]]
 
-   total_pages <- responses[[1]][["parsed"]][["pagination"]][["pages"]]
-
-   total_count <- responses[[1]][['parsed']][["pagination"]][["count"]]
+   total_count <- responses[[1]][["pagination"]][["count"]]
 
    message("Itemized contributions found: ", total_count)
-   STOP
+
+
+
    if(total_pages > 1){
 
       message(paste0("There are about ", total_pages, " pages of results to get containing approximately ", total_count, " itemized contributions."))
@@ -147,17 +149,17 @@ get_itemized_contributions <- function(
          Sys.sleep(.5) #With an upgraded key, max limit is 120 calls per minute.
 
          #Check the last response
-         #tk
 
-         for(last_index in names(responses[[i - 1]][['parsed']][["pagination"]][["last_indexes"]])){
 
-            query_parameters[[last_index]] <- responses[[i - 1]][['parsed']][['pagination']][['last_indexes']][[last_index]]
+         for(last_index in names(responses[[i - 1]][["pagination"]][["last_indexes"]])){
+
+            query_parameters[[last_index]] <- responses[[i - 1]][['pagination']][['last_indexes']][[last_index]]
 
          }
 
-         responses[[i]] <- query_openfec(path = paste0("/schedules/schedule_a/"), query_parameters = query_parameters)
+         responses[[i]] <- query_openfec(path = "/schedules/schedule_a/", query_parameters = query_parameters)
 
-         if(length(responses[[i]]$parsed$results) == 0){
+         if(length(responses[[i]]$results) == 0){
             more_results <- FALSE
          }
 
@@ -168,7 +170,7 @@ get_itemized_contributions <- function(
    }
 
    tidy_donations <- responses %>%
-      purrr::map(function(x) x$parsed$results) %>%
+      purrr::map(function(x) x$results) %>%
       unlist(recursive = F) %>%
       #Help for creating tibble
       #cat(paste0(tidy_donations[[1]] %>% names(),' = map_chr(. , "', tidy_donations[[1]] %>% names(), '", .default = NA),', collapse = "\n"), sep = '\n')
@@ -273,8 +275,9 @@ get_itemized_contributions <- function(
 
 }
 
+
 #' @rdname get_itemized_contributions
 #' @export
-get_schedule_a <- get_itemized_contributions(data = candidates)
+# get_schedule_a <- get_itemized_contributions(data = clist)
 
 
