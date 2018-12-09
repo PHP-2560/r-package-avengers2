@@ -60,7 +60,7 @@ plot_donations = function(df) {
     geom_line() + 
     scale_x_date(date_breaks = "days" , date_labels = "%d-%b") +
     xlab(label = "Date") +
-    scale_y_continuous(label=dollar_format(), name = "Average Donation") +    
+    scale_y_continuous(name = "Average Donation") +    
     ggtitle(paste("Senate Donations", title, "\nDaily")) + 
     scale_color_manual(values = group_colors) +
     graph_theme 
@@ -71,7 +71,7 @@ plot_donations = function(df) {
     geom_smooth() +
     scale_x_date(date_breaks = "days" , date_labels = "%d-%b") +    
     xlab(label = "Date") +
-    scale_y_continuous(label=dollar_format(), name = "Cumulative Donation") +
+    scale_y_continuous(name = "Cumulative Donation") +
     ggtitle(paste("Senate Donations", title, "\nCumulative")) + 
     scale_color_manual(values = group_colors) +
     graph_theme
