@@ -19,6 +19,8 @@ get_contributions<- function(input_candlist) {
       return(contributions)
    } else {
       # contributions[[(dim(input_candlist)[1] + 1)]]<-append(contributions[[1:dim(candidates)[1]]]) # to finish
+      contributions_all<-do.call(rbind, contributions)
+      return(contributions_all)
    }
 }
 

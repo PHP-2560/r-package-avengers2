@@ -1,4 +1,4 @@
-## Purpose of 01_get_fec.R is to specify query and get data from fec 
+## Purpose of 01_get_fec.R is to specify query and get data from fec
 #' @param input_api
 #' @param input_state
 #' @param input_year
@@ -16,20 +16,19 @@ get_fec <- function(  unnest_committees = TRUE,
                       election_year = NULL,
                       cycle = NULL) {
    if (is.null(api_key)) {
-      
+
       stop('An API key is required. Obtain one at https://api.data.gov/signup. If you have     one, use data_gov_api_key() to save it.')
-      
+
    }
 
-  
+
   #1: FIND CANDIDATES
-  
+
   #1.1: Set up query, get url and build initial content list
   baseurl <-"https://api.open.fec.gov/v1"
-  
+
   endpoint_char <- "/candidates/search/"
-  
- 
+
   query_param<- list(
      name = name,
      year = year,
@@ -41,11 +40,11 @@ get_fec <- function(  unnest_committees = TRUE,
      cycle = cycle,
      page = 1,
      per_page=100)
-     
-  query_param <- query_param[!sapply(query_param, is.null)]    
-  
+
+  query_param <- query_param[!sapply(query_param, is.null)]
+
   # FEC.cand <- query_openfec(endpoint_char, query_param)
- 
+
   #Set up for responses to our requests.
   responses <- list()
 
@@ -56,7 +55,7 @@ get_fec <- function(  unnest_committees = TRUE,
   total_count <- responses[[1]][["pagination"]][["count"]]
 
   # message(paste0("Candidates found: ", total_count))
-  # 
+  #
   # #Automate Pagination, only run if necessary
   if(total_pages > 1){
 
@@ -83,8 +82,8 @@ get_fec <- function(  unnest_committees = TRUE,
 
   }
 
-  # CLEAN RESPONSES RETRIEVED 
-  
+  # CLEAN RESPONSES RETRIEVED
+
   tidy_candidates <- purrr::map(responses, function(x) x$results) %>%
      unlist(recursive = F) %>%
      tibble::tibble(
@@ -130,9 +129,9 @@ get_fec <- function(  unnest_committees = TRUE,
                                                                   last_f1_date = NA,
                                                                   treasurer_name = NA,
                                                                   name = NA)))))
-  
+
   if(unnest_committees == TRUE){
-     
+
      tidy_candidates <- tidy_candidates %>%
         #We want to unnest the principal committees so we have a row for every canidate-committee pair, but keep some other lists preserved.
         tidyr::unnest(principal_committees, .preserve = c("election_years", "cycles", "election_districts")) %>%
@@ -147,22 +146,16 @@ get_fec <- function(  unnest_committees = TRUE,
                committee_last_file_date = map_chr(principal_committees, function(x) x$last_file_date)
         ) %>%
         filter(latest_cycle == input_year) ##ADDED THIS FILTER B/E THE ORIGINAL CODE WOULD RETURN ALL COMMITTEES, EVEN THOSE ACTIVE IN EARLIER CYCLES (ALETRNATIVELY, WE CAN DIRECTLY SET THIS PARAMETER EQUAL TO THE INPUT_YEAR WHEN WE CALL THE FUCNTION)
-     
+
      message("Total Candidates: ",length(levels(as.factor(tidy_candidates$candidate_id))),"\nTotal Principal Committees: ",length(levels(as.factor(tidy_candidates$committee_id))),"\nNumber of rows: ",nrow(tidy_candidates))
-     
+
   }
-  
+
   return(tidy_candidates)
-  
+
 }
 
 
-candlist<-get_fec(state = input_state, 
-        election_year = input_year, 
-        api_key = input_api, 
-        office = input_office)
 
-showtable<-candlist%>%
-   select(c(name, party, committee_name))
-print(showtable)
+
 

@@ -11,6 +11,8 @@
 #'
 #' @export
 
+source("./fecScrape/R/choose_cand.R")
+
 #Construct FEC URL to get data from
 query_candidate_list <- function(api_key = NULL, state = NULL, election_year = NULL, office = NULL, candidate_status = "C") {
   if (is.null(api_key)) {
@@ -92,7 +94,8 @@ query_candidate_list <- function(api_key = NULL, state = NULL, election_year = N
         active_through = map_int(. , "active_through", .default = NA),
         incumbent_challenge_full = map_chr(. , "incumbent_challenge_full", .default = NA),
         last_f2_date = map_chr(. , "last_f2_date", .default = NA),
-        district = map_chr(. , "district", .default = NA)
+        district = map_chr(. , "district", .default = NA),
+        committee_id = map(. , "committee_id")
      ) %>%
      #for candidates with no principal committee, we still want a list filled with NA values so other functions don't freak.
      tidyr::replace_na(list(principal_committees = list(list(list(organization_type_full = NA,
@@ -113,6 +116,33 @@ query_candidate_list <- function(api_key = NULL, state = NULL, election_year = N
                                                                   treasurer_name = NA,
                                                                   name = NA)))))
 
+  # if(unnest_committees == TRUE){
+
+     tidy_candidates <- tidy_candidates %>%
+        #We want to unnest the principal committees so we have a row for every canidate-committee pair, but keep some other lists preserved.
+        tidyr::unnest(principal_committees, .preserve = c("election_years", "cycles", "election_districts")) %>%
+        mutate(committee_id = map_chr(principal_committees, function(x) x$committee_id),
+               committee_name = map_chr(principal_committees, function(x) x$name),
+               treasurer_name = map_chr(principal_committees, function(x) x$treasurer_name),
+               earliest_cycle = map_int(principal_committees, function(x) x$cycles %>% unlist() %>% min()),
+               latest_cycle = map_int(principal_committees, function(x) x$cycles %>% unlist() %>% max()),
+               earliest_election_year = map_int(election_years, function(x) x %>% unlist() %>% min()),
+               latest_election_year = map_int(election_years, function(x) x %>% unlist() %>% max()),
+               committee_first_file_date = map_chr(principal_committees, function(x) x$first_file_date),
+               committee_last_file_date = map_chr(principal_committees, function(x) x$last_file_date)
+        ) %>%
+        filter(latest_cycle == input_year) ##ADDED THIS FILTER B/E THE ORIGINAL CODE WOULD RETURN ALL COMMITTEES, EVEN THOSE ACTIVE IN EARLIER CYCLES (ALETRNATIVELY, WE CAN DIRECTLY SET THIS PARAMETER EQUAL TO THE INPUT_YEAR WHEN WE CALL THE FUCNTION)
+
+     message("Total Candidates: ",length(levels(as.factor(tidy_candidates$candidate_id))),"\nTotal Principal Committees: ",length(levels(as.factor(tidy_candidates$committee_id))),"\nNumber of rows: ",nrow(tidy_candidates))
+
+  # }
+
+
+  tidy_candidates %>%
+     select(name) %>%
+     print()
+  tidy_candidates<-choose_cand(tidy_candidates)
+
   return(tidy_candidates)
 
 }
@@ -124,4 +154,4 @@ input_year<-2018
 input_office <- "S"
 
 
-aaa<-query_candidate_list(api_key = input_api, state = input_state, office= input_office, election_year = input_year)
+candidates<-query_candidate_list(api_key = input_api, state = input_state, office= input_office, election_year = input_year)
