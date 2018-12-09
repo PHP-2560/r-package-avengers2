@@ -38,7 +38,8 @@ plot_donations = function(df) {
   # Donation data cleanup: clean
   data_clean = df %>% 
     select(amount, date, party) %>%
-    mutate(date = as.Date(date))
+    mutate(date = as.Date(date)) %>%
+    mutate(week = as.integer(week(date)-min(week(date))+1))
   
   # Donation data cleanup: average daily
   data_average_daily = data_clean %>% 
@@ -76,6 +77,14 @@ plot_donations = function(df) {
     scale_color_manual(values = group_colors) +
     graph_theme
   
-  plots = list("average" = plot_average_daily, "cumulative" = plot_cumulative)
+  plot_individual = ggplot(data_clean, 
+                           aes(x = week, y = amount, group = party, color = party)) +
+    scale_color_manual(values = group_colors) +
+    geom_point() +
+    geom_jitter(width = .3, height = 0) +
+    scale_x_discrete(name = "week", limits=min(data_clean$week):max(data_clean$week)) +
+    graph_theme
+  
+  plots = list("average" = plot_average_daily, "cumulative" = plot_cumulative, "individual" = plot_individual)
   return(plots)
 }
