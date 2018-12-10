@@ -1,5 +1,13 @@
 #' Search for political candidates in FEC
-#'
+# Initialize libraries
+required_packages <- c("httr", "rvest", "jsonlite", "dplyr", "stringr", "purrr", "tidyr") # list of packages required
+# Check if any listed packages are not installed
+new_packages <- required_packages[!(required_packages %in% installed.packages()[,"Package"])]
+# Install packages_new if it's not empty
+if(length(new_packages)) install.packages(new_packages)
+# Load packages
+lapply(required_packages, library, character.only = TRUE)
+
 #' This function constructs searches for candidates listed in the FEC based on input parameters.
 #' @param api_key An API key required to use OpenFEC
 #' @param state A two-letter acronym which specifies the state to search (e.g., "TX")
@@ -11,7 +19,8 @@
 #'
 #' @export
 
-source("./fecScrape/R/choose_cand.R")
+source("choose_cand.R")
+source("query_openfec.R")
 
 #Construct FEC URL to get data from
 query_candidate_list <- function(api_key = NULL, state = NULL, election_year = NULL, office = NULL, candidate_status = "C") {

@@ -29,7 +29,7 @@
 #'
 #' @export
 #'
-source("./fecScrape/R/query_openfec.R")
+source("query_openfec.R")
 
 get_itemized_contributions <- function(
    data = NULL,
