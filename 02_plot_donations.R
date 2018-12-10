@@ -1,5 +1,5 @@
 # Purpose: take the scrape output and make a lineplot to show donations over time
-
+rm(list=ls())
 # Initialize libraries 
 required_packages = c("dplyr", 
                       "tidyverse", 
@@ -13,12 +13,17 @@ if(length(new_packages)) install.packages(new_packages)
 lapply(required_packages, library, character.only = TRUE)
 
 ###########################
-# Manually pulling in data to test 
+# # Manually pulling in data to test 
 # input_state <- "TX"
 # input_candidates <- c("O'Rourke, Beto", "Cruz, Ted")
-input_state <- "WY"
-input_candidates <- c("Barrasso, John", "Trauner, Gary")
-df <- read.csv(paste0("../week-09-inclass-avengers/data/", input_state,"_ind_cont.csv")) # use stored data to save some time
+# # input_state <- "WY"
+# # input_candidates <- c("Barrasso, John", "Trauner, Gary")
+# df <- read.csv(paste0("../week-09-inclass-avengers/data/", input_state,"_ind_cont.csv")) # use stored data to save some time
+###########################
+
+###########################
+# Manually pulling in data to test 
+load("./fecScrape/R/WY_contr")
 ###########################
 
 plot_donations = function(df) {
@@ -81,10 +86,11 @@ plot_donations = function(df) {
                            aes(x = week, y = amount, group = party, color = party)) +
     scale_color_manual(values = group_colors) +
     geom_point() +
-    geom_jitter(width = .3, height = 0) +
+    geom_jitter(width = .4, height = 0) +
     scale_x_discrete(name = "week", limits=min(data_clean$week):max(data_clean$week)) +
     graph_theme
   
   plots = list("average" = plot_average_daily, "cumulative" = plot_cumulative, "individual" = plot_individual)
   return(plots)
 }
+plot_donations(df)
