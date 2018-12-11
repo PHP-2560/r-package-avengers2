@@ -23,8 +23,19 @@ lapply(required_packages, library, character.only = TRUE)
 
 ###########################
 # Manually pulling in data to test 
-load("./fecScrape/R/WY_contr")
+load("./Data/WY_contr")
 ###########################
+
+df = contributions %>% 
+  select(id = contributor_id, 
+         city = contributor_city, 
+         employer = contributor_employer, 
+         occupation = contributor_occupation, 
+         zipcode = contributor_zip, 
+         amount = contribution_receipt_amount, 
+         date = contribution_receipt_date,
+         fec_election_year)
+# we still need to get party info from nested cmmittee list
 
 plot_donations = function(df) {
   # Initialize graph attributes 
