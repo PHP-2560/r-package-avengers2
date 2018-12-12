@@ -1,7 +1,3 @@
-# input_api <- "jFTYk34OsWkFoEHLcUDa7G1Ax4GCyhJyAgCwB8oz"
-
-source("get_itemized_contributions.R")
-
 get_contributions<- function(input_candlist) {
    contributions<-list()
    for (c in 1:dim(input_candlist)[1]) {
@@ -23,6 +19,3 @@ get_contributions<- function(input_candlist) {
       return(contributions_all)
    }
 }
-
-contributions<-get_contributions(candidates)
-save(contributions, file = "WY_contr")

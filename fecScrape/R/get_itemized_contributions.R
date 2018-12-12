@@ -1,5 +1,5 @@
-#this script finds all individual contributions associated with a given list of candidates
-
+#' Finds individual contributions associated with a list of candidates
+#'
 #' @param data A dataframe or tibble. Usually this will be the returned result of search_candidates(). If a column is called 'committee_id', get_itemized_contributions() will return results for all IDs in that column and will attempt to join data to the result by committee_id.
 #' @param api_key API key for https://api.data.gov. Get one at https://api.data.gov/signup.
 #' @param data_structure A character describing how you want OpenFEC results. Options are 'tidy', 'list', or 'both.' Choose list for raw results.
@@ -28,8 +28,6 @@
 #' @param line_number Filter for form and line number using the following format: FORM-LINENUMBER. For example an argument such as F3X-16 would filter down to all entries from form F3X line number 16.
 #'
 #' @export
-#'
-source("query_openfec.R")
 
 get_itemized_contributions <- function(
    data = NULL,
@@ -274,10 +272,5 @@ get_itemized_contributions <- function(
    }
 
 }
-
-
-#' @rdname get_itemized_contributions
-#' @export
-# get_schedule_a <- get_itemized_contributions(data = clist)
 
 
