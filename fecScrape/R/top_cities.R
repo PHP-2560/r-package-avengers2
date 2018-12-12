@@ -38,7 +38,12 @@ graph_theme = theme_bw(base_size = 12) +
    theme(panel.grid.major = element_line(size = .1, color = "grey"), # Increase size of gridlines
 axis.line = element_line(size = .7, color = "black"), # Increase size of axis lines
 text = element_text(size = 14)) # Increase the font size
-group_colors <- c("#377EB8", "#E41A1C") # set colors
+
+if (citydf$party[1]=="DEM") { #this if statement assign the right color to each candidate: red for Republicans and Blue for Democrats
+   group_colors <- c("#377EB8", "#E41A1C") # set colors
+} else {
+   group_colors <- c("#E41A1C", "#377EB8") # set colors
+}
 
 #prepare labels
 brk<-citydf$total %>%
@@ -55,7 +60,7 @@ lab<-abs(brk)
 plot<- citydf %>%
    mutate(total = ifelse(party=="REP", -total, total )) %>%
    arrange(desc(total), party) %>%
-   ggplot(aes(x = reorder(city_state, -total), y = total, fill = party, group = party)) +
+   ggplot(aes(x = reorder(city_state, -total), y = total, fill = candidate, group = candidate)) +
    geom_bar(stat = "identity") +
    coord_flip() +
    xlab("Top Donations Cities") +
