@@ -45,5 +45,5 @@ To Do: Create a naming schematic for the functions such that all functions which
 For our example, we will focus on the recent 2018 Sentate race in Texas between [Beto O'Rourke](https://betofortexas.com) and [Ted Cruz](https://www.cruz.senate.gov). We chose these this specific election because both Beto and Cruz raised tens of millions of dollars for this election cycle. 
 
 ```{r, message = FALSE, warning = FALSE, eval = FALSE}
-
+# Test
 ```
