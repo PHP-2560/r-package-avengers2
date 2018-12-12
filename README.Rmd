@@ -1,3 +1,18 @@
+---
+title: "README"
+author: "Joey Heffner"
+date: "December 12, 2018"
+output: 
+  github_document:
+    html_preview: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  fig.path = "README-"
+)
+```
+
 # fecScrape
 
 The fecScrape package provides functions to interface with the [OpenFEC API](https://api.open.fec.gov/developers/). OpenFEC API allows you to access funding data on candidates and committees. This package allows users to scrape individual- and aggregated-level donation data, plot these data to examine the timecourse of donation as well as geographic spread of donations, and does some basic summary statistics. 
@@ -29,4 +44,6 @@ To Do: Create a naming schematic for the functions such that all functions which
 
 For our example, we will focus on the recent 2018 Sentate race in Texas between [Beto O'Rourke](https://betofortexas.com) and [Ted Cruz](https://www.cruz.senate.gov). We chose these this specific election because both Beto and Cruz raised tens of millions of dollars for this election cycle. 
 
+```{r, message = FALSE, warning = FALSE, eval = FALSE}
 
+```
