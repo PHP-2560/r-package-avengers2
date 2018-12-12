@@ -3,6 +3,7 @@ rm(list=ls())
 # Initialize libraries 
 required_packages = c("dplyr", 
                       "tidyverse", 
+                      "lubridate", 
                       "ggplot2") # list of packages required
 
 # Check if any listed packages are not installed
@@ -34,10 +35,11 @@ df = contributions %>%
          zipcode = contributor_zip, 
          amount = contribution_receipt_amount, 
          date = contribution_receipt_date,
-         fec_election_year)
-# we still need to get party info from nested cmmittee list
+         fec_election_year) %>%
+  mutate(party = unlist(lapply(contributions$committee, `[[`, "party")))
+ 
 
-plot_donations = function(df) {
+plot_donations = function(df, freq=daily) {
   # Initialize graph attributes 
   graph_theme = theme_bw(base_size = 12) +
     theme(panel.grid.major = element_line(size = .1, color = "grey"), # Increase size of gridlines 
