@@ -102,7 +102,7 @@ topocc_data<-topocc_data %>%
 # occ_levels<-names(sort(tapply(topocc_data$total, topocc_data$contributor_occupation, sum)))
 # topocc_data$candidate<-as.factor(topocc_data$candidate)
 
-topocc_data$contributor_occupation<-factor(topocc_data$contributor_occupation, levels = unique(topocc_data$contributor_occupation)[order(topocc_data$total, decreasing = T)])
+topocc_data$contributor_occupation<-factor(topocc_data$contributor_occupation, levels = unique(topocc_data$contributor_occupation)[order(topocc_data$total, decreasing = F)])
 
 #prepare data for barplot
 topocc_data %>%

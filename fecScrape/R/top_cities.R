@@ -74,6 +74,6 @@ output<-list(citydf, plot)
 return(output)
 }
 
-output<-top_cities(10, contributions)
+output<-top_cities(5, contributions)
 
 output
