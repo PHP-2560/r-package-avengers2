@@ -1,21 +1,6 @@
-# Purpose: take the scrape output and make a lineplot to show donations over time
-rm(list=ls())
-# Initialize libraries 
-required_packages = c("dplyr", 
-                      "tidyverse", 
-                      "scales", 
-                      "ggplot2") # list of packages required
-
-# Check if any listed packages are not installed
-new_packages <- required_packages[!(required_packages %in% installed.packages()[,"Package"])]
-# Install packages_new if it's not empty
-if(length(new_packages)) install.packages(new_packages) 
-# Load packages
-lapply(required_packages, library, character.only = TRUE)
-
 ###########################
 # Manually pulling in data to test 
-load("./Data/WY_contr")
+#load("./Data/WY_contr")
 ###########################
 
 df = contributions %>% 

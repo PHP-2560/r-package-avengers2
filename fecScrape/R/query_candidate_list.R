@@ -1,13 +1,4 @@
 #' Search for political candidates in FEC
-# Initialize libraries
-required_packages <- c("httr", "rvest", "jsonlite", "dplyr", "stringr", "purrr", "tidyr") # list of packages required
-# Check if any listed packages are not installed
-new_packages <- required_packages[!(required_packages %in% installed.packages()[,"Package"])]
-# Install packages_new if it's not empty
-if(length(new_packages)) install.packages(new_packages)
-# Load packages
-lapply(required_packages, library, character.only = TRUE)
-
 #' This function constructs searches for candidates listed in the FEC based on input parameters.
 #' @param api_key An API key required to use OpenFEC
 #' @param state A two-letter acronym which specifies the state to search (e.g., "TX")
@@ -15,15 +6,14 @@ lapply(required_packages, library, character.only = TRUE)
 #' @param office Specifies which office the candidate ran for: "S" = Senate, "H" = House, "G" = Governor, "P" = President
 #' @param candidate_status Specifies whether the candidate is active during that election. Defaults to "C" for current.
 #'
-#' @import purrr dplyr magrittr
+#' @import purrr dplyr magrittr 
 #'
 #' @export
 
-source("choose_cand.R")
-source("query_openfec.R")
-
 #Construct FEC URL to get data from
 query_candidate_list <- function(api_key = NULL, state = NULL, election_year = NULL, office = NULL, candidate_status = "C") {
+  
+  # Search for API key
   if (is.null(api_key)) {
     stop('An API key is required. Obtain one at https://api.data.gov/signup.')
   }
@@ -125,8 +115,6 @@ query_candidate_list <- function(api_key = NULL, state = NULL, election_year = N
                                                                   treasurer_name = NA,
                                                                   name = NA)))))
 
-  # if(unnest_committees == TRUE){
-
      tidy_candidates <- tidy_candidates %>%
         #We want to unnest the principal committees so we have a row for every canidate-committee pair, but keep some other lists preserved.
         tidyr::unnest(principal_committees, .preserve = c("election_years", "cycles", "election_districts")) %>%
@@ -144,23 +132,12 @@ query_candidate_list <- function(api_key = NULL, state = NULL, election_year = N
 
      message("Total Candidates: ",length(levels(as.factor(tidy_candidates$candidate_id))),"\nTotal Principal Committees: ",length(levels(as.factor(tidy_candidates$committee_id))),"\nNumber of rows: ",nrow(tidy_candidates))
 
-  # }
-
 
   tidy_candidates %>%
      select(name) %>%
      print()
-  tidy_candidates<-choose_cand(tidy_candidates)
+  tidy_candidates <- choose_cand(tidy_candidates)
 
   return(tidy_candidates)
 
 }
-
-input_api <- "jFTYk34OsWkFoEHLcUDa7G1Ax4GCyhJyAgCwB8oz"
-input_state <- "WY"
-# input_candidates <- c("Barrasso, John", "Trauner, Gary")
-input_year<-2018
-input_office <- "S"
-
-
-candidates<-query_candidate_list(api_key = input_api, state = input_state, office= input_office, election_year = input_year)

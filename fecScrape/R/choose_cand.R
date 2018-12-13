@@ -1,4 +1,8 @@
+#' Selects candidates from a list
+#' 
 #' @param clist the list of candidates
+#' 
+#' @export
 
 choose_cand <-function(clist) {
 

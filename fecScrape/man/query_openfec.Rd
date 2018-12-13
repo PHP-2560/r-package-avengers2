@@ -12,5 +12,5 @@ query_openfec(path, query_parameters = list())
 \item{query_parameters}{A list with values of the parameters to use in the request.}
 }
 \description{
-This function constructs the correct URL to send a GET request to the OpenFEC API. Returns the results as a list including both raw and parsed JSON information. OpenFEC query parameters are documented here https://api.open.fec.gov/developers/.
+This function constructs the correct URL to send a GET request to the OpenFEC API. Returns the results a parsed JSON list. OpenFEC query parameters are documented here https://api.open.fec.gov/developers/.
 }
