@@ -1,15 +1,14 @@
-## Purpose of 01_get_fec.R is to specify query and get data from fec 
+#' A FEC Scrape Function
+#' 
+#' THis function allows you to scrape data from the FEC.
+#' @param state: specifies state to scrape data
+#' @param candidates: specifies which candidates to scrape
+#' @keywords fec, politics
+#' @export
+#' @examples
+#' get_fec()
 
-# Initialize libraries 
-required_packages <- c("httr", "rvest", "jsonlite", "dplyr", "stringr") # list of packages required
-# Check if any listed packages are not installed
-new_packages <- required_packages[!(required_packages %in% installed.packages()[,"Package"])]
-# Install packages_new if it's not empty
-if(length(new_packages)) install.packages(new_packages) 
-# Load packages
-lapply(required_packages, library, character.only = TRUE)
 
-## Construct FEC URL to get data from
 get_fec <- function(state, candidates) {
   
   #keep api key here for now, then specify it in makefile
@@ -204,5 +203,3 @@ get_fec <- function(state, candidates) {
   # save contributions file so we don't have to redownload
   write.csv(FEC.contributions, file = paste0("./data/", state,"_ind_cont.csv"))
 }
-
-get_fec(input_state, input_candidates)

@@ -1,6 +1,6 @@
 README
 ================
-Joey Heffner
+Gabri, Pablo, Joey
 December 12, 2018
 
 fecScrape
@@ -34,5 +34,61 @@ Step 1: Scrape candidates running in an election of interest.
 For our example, we will focus on the recent 2018 Sentate race in Texas between [Beto O'Rourke](https://betofortexas.com) and [Ted Cruz](https://www.cruz.senate.gov). We chose these this specific election because both Beto and Cruz raised tens of millions of dollars for this election cycle.
 
 ``` r
-# Test
+# Find and select candidates
+my_api <- "jFTYk34OsWkFoEHLcUDa7G1Ax4GCyhJyAgCwB8oz"
+
+wv_data <- query_candidate_list(
+  api_key = my_api, 
+  state = "WV", 
+  election_year = 2018, 
+  office = "S"
+)
+head(wv_data)
+
+# Select candidates of interest
+wv_chosen_data <- choose_cand(wv_data, 3, 4)
+head(wv_chosen_data)
+```
+
+Step 2: Find individual donations for specified candidates
+----------------------------------------------------------
+
+``` r
+# Find all individual donations to each candidates' primary committee
+wv_indiv_data <- query_contributions_all(
+  input_candlist = wv_chosen_data, 
+  api_key = my_api
+)
+```
+
+Step 3: Plot average donations
+------------------------------
+
+``` r
+wv_avg_donation <- plot_avg_donation(wv_indiv_data)
+wv_avg_donation
+```
+
+Step 4: Plot cummulative donations
+----------------------------------
+
+``` r
+wv_cum_donation <- plot_cum_donation(wv_indiv_data)
+wv_cum_donation
+```
+
+Step 5: Plot cities of donators
+-------------------------------
+
+``` r
+wv_cities_donation <- plot_top_cities(3, wv_indiv_data)
+wv_cities_donation
+```
+
+Step 6: Plot occputations of donators
+-------------------------------------
+
+``` r
+wv_occup_donation <- plot_occupations(4, wv_indiv_data)
+wv_occup_donation
 ```

@@ -2,11 +2,11 @@
 % Please edit documentation in R/query_candidate_list.R
 \name{query_candidate_list}
 \alias{query_candidate_list}
-\title{Search for political candidates in FEC
-This function constructs searches for candidates listed in the FEC based on input parameters.}
+\title{Search for political candidates in FEC}
 \usage{
 query_candidate_list(api_key = NULL, state = NULL,
-  election_year = NULL, office = NULL, candidate_status = "C")
+  election_year = NULL, year = election_year, office = NULL,
+  candidate_status = "C")
 }
 \arguments{
 \item{api_key}{An API key required to use OpenFEC}
@@ -20,6 +20,5 @@ query_candidate_list(api_key = NULL, state = NULL,
 \item{candidate_status}{Specifies whether the candidate is active during that election. Defaults to "C" for current.}
 }
 \description{
-Search for political candidates in FEC
 This function constructs searches for candidates listed in the FEC based on input parameters.
 }

@@ -29,10 +29,9 @@
 #'
 #' @export
 
-get_itemized_contributions <- function(
+query_itemized_contributions <- function(
    data = NULL,
-   # api_key = Sys.getenv('DATAGOV_API_KEY'),
-   api_key = "jFTYk34OsWkFoEHLcUDa7G1Ax4GCyhJyAgCwB8oz",
+   api_key = NULL,
    data_structure = 'tidy',
    contributor_employer = NULL,
    contributor_name = NULL,

@@ -4,10 +4,14 @@
 \alias{choose_cand}
 \title{Selects candidates from a list}
 \usage{
-choose_cand(clist)
+choose_cand(df, firstCandidate = NULL, secondCandidate = NULL)
 }
 \arguments{
-\item{clist}{the list of candidates}
+\item{df}{the list of candidates}
+
+\item{firstCandidate}{The number of the first candidate in the list, if known (otherwise will prompt)}
+
+\item{secondCandidate}{The number of the second candidate in the list, if known}
 }
 \description{
 Selects candidates from a list
