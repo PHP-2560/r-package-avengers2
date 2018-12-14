@@ -34,7 +34,7 @@ get\_itemized\_contributions \[x\] plot\_donations \[x\]
 query\_candidate\_list \[x\] query\_openfec \[x\] top\_cities \[x\]
 top\_occupations
 
-# Example: 2018 Senate race between Bato & Cruz
+# Example: 2018 Senate race between Beto & Cruz
 
 ## Step 1: Scrape candidates running in an election of interest.
 
@@ -48,25 +48,25 @@ for this election cycle.
 # Find and select candidates
 my_api <- "jFTYk34OsWkFoEHLcUDa7G1Ax4GCyhJyAgCwB8oz"
 
-wv_data <- query_candidate_list(
+tx_data <- query_candidate_list(
   api_key = my_api, 
-  state = "WV", 
+  state = "TX", 
   election_year = 2018, 
   office = "S"
 )
-head(wv_data)
+head(tx_data)
 
 # Select candidates of interest
-wv_chosen_data <- choose_cand(wv_data, 3, 4)
-head(wv_chosen_data)
+tx_chosen_data <- choose_cand(tx_data, 3, 4)
+head(tx_chosen_data)
 ```
 
 ## Step 2: Find individual donations for specified candidates
 
 ``` r
 # Find all individual donations to each candidates' primary committee
-wv_indiv_data <- query_contributions_all(
-  input_candlist = wv_chosen_data, 
+tx_indiv_data <- query_contributions_all(
+  input_candlist = tx_chosen_data, 
   api_key = my_api
 )
 ```
@@ -74,27 +74,27 @@ wv_indiv_data <- query_contributions_all(
 ## Step 3: Plot average donations
 
 ``` r
-wv_avg_donation <- plot_avg_donation(wv_indiv_data)
-wv_avg_donation
+tx_avg_donation <- plot_avg_donation(tx_indiv_data)
+tx_avg_donation
 ```
 
 ## Step 4: Plot cummulative donations
 
 ``` r
-wv_cum_donation <- plot_cum_donation(wv_indiv_data)
-wv_cum_donation
+tx_cum_donation <- plot_cum_donation(tx_indiv_data)
+tx_cum_donation
 ```
 
 ## Step 5: Plot cities of donators
 
 ``` r
-wv_cities_donation <- plot_top_cities(3, wv_indiv_data)
-wv_cities_donation
+tx_cities_donation <- plot_top_cities(3, tx_indiv_data)
+tx_cities_donation
 ```
 
 ## Step 6: Plot occputations of donators
 
 ``` r
-wv_occup_donation <- plot_occupations(4, wv_indiv_data)
-wv_occup_donation
+tx_occup_donation <- plot_occupations(4, tx_indiv_data)
+tx_occup_donation
 ```
