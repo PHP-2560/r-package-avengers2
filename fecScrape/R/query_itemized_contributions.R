@@ -143,7 +143,7 @@ query_itemized_contributions <- function(
          }
 
          ### Rate Limit Controls
-         Sys.sleep(.5) #With an upgraded key, max limit is 120 calls per minute.
+         Sys.sleep(3.75) #With an upgraded key, max limit is 120 calls per minute.
 
          #Check the last response
 

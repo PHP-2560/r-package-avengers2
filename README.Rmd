@@ -50,14 +50,14 @@ my_api <- "jFTYk34OsWkFoEHLcUDa7G1Ax4GCyhJyAgCwB8oz"
 
 wv_data <- query_candidate_list(
   api_key = my_api, 
-  state = "WV", 
+  state = "TX", 
   election_year = 2018, 
   office = "S"
 )
 head(wv_data)
 
 # Select candidates of interest
-wv_chosen_data <- choose_cand(wv_data, 3, 4)
+wv_chosen_data <- choose_cand(wv_data, 2, 7)
 head(wv_chosen_data)
 
 ```

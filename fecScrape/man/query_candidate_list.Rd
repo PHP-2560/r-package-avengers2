@@ -5,8 +5,7 @@
 \title{Search for political candidates in FEC}
 \usage{
 query_candidate_list(api_key = NULL, state = NULL,
-  election_year = NULL, year = election_year, office = NULL,
-  candidate_status = "C")
+  election_year = NULL, office = NULL, candidate_status = "C")
 }
 \arguments{
 \item{api_key}{An API key required to use OpenFEC}

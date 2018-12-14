@@ -1,5 +1,5 @@
 #' Search for political candidates in FEC
-#' 
+#'
 #' This function constructs searches for candidates listed in the FEC based on input parameters.
 #' @param api_key An API key required to use OpenFEC
 #' @param state A two-letter acronym which specifies the state to search (e.g., "TX")
@@ -7,13 +7,13 @@
 #' @param office Specifies which office the candidate ran for: "S" = Senate, "H" = House, "G" = Governor, "P" = President
 #' @param candidate_status Specifies whether the candidate is active during that election. Defaults to "C" for current.
 #'
-#' @import purrr dplyr magrittr 
+#' @import purrr dplyr magrittr
 #'
 #' @export
 
 #Construct FEC URL to get data from
-query_candidate_list <- function(api_key = NULL, state = NULL, election_year = NULL, year = election_year, office = NULL, candidate_status = "C") {
-  
+query_candidate_list <- function(api_key = NULL, state = NULL, election_year = NULL, office = NULL, candidate_status = "C") {
+
   # Search for API key
   if (is.null(api_key)) {
     stop('An API key is required. Obtain one at https://api.data.gov/signup.')
@@ -128,8 +128,8 @@ query_candidate_list <- function(api_key = NULL, state = NULL, election_year = N
                latest_election_year = map_int(election_years, function(x) x %>% unlist() %>% max()),
                committee_first_file_date = map_chr(principal_committees, function(x) x$first_file_date),
                committee_last_file_date = map_chr(principal_committees, function(x) x$last_file_date)
-        ) #%>%
-        #filter(latest_cycle == election_year) ##ADDED THIS FILTER B/E THE ORIGINAL CODE WOULD RETURN ALL COMMITTEES, EVEN THOSE ACTIVE IN EARLIER CYCLES (ALETRNATIVELY, WE CAN DIRECTLY SET THIS PARAMETER EQUAL TO THE INPUT_YEAR WHEN WE CALL THE FUCNTION)
+        ) %>%
+        filter(latest_cycle == election_year) ##ADDED THIS FILTER B/E THE ORIGINAL CODE WOULD RETURN ALL COMMITTEES, EVEN THOSE ACTIVE IN EARLIER CYCLES (ALETRNATIVELY, WE CAN DIRECTLY SET THIS PARAMETER EQUAL TO THE INPUT_YEAR WHEN WE CALL THE FUCNTION)
 
      message("Total Candidates: ",length(levels(as.factor(tidy_candidates$candidate_id))),"\nTotal Principal Committees: ",length(levels(as.factor(tidy_candidates$committee_id))),"\nNumber of rows: ",nrow(tidy_candidates))
   return(tidy_candidates)
