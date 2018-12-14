@@ -1,8 +1,15 @@
 Package: fecScrape
-Title: What the Package Does (one line, title case)
-Version: 0.0.0.9000
-Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+Title: Access and analyze FEC data
+Version: 1.0
+Authors@R:  person("Gabriele", "Borg", email = "gabriele_borg@brown.edu")
+            person("Joseph", "Heffner", email = "joseph_heffner@brown.edu")
+            person("Pablo", "Garriga", email = "pablo_garriga@brown.edu")
+Description: The fecScrape package provides functions to interface with the [OpenFEC
+API](https://api.open.fec.gov/developers/). OpenFEC API allows you to
+access funding data on candidates and committees. This package allows
+users to scrape individual- and aggregated-level donation data, plot
+these data to examine the timecourse of donation as well as geographic
+spread of donations, and does some basic summary statistics.
 Depends: R (>= 3.5.1)
 License: What license is it under?
 Encoding: UTF-8
