@@ -1,6 +1,6 @@
 #' Selects candidates from a list
 #' 
-#' @param df the list of candidates
+#' @param df The list of candidates
 #' @param firstCandidate The number of the first candidate in the list, if known (otherwise will prompt)
 #' @param secondCandidate The number of the second candidate in the list, if known 
 #' 
